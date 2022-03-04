@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchCoins } from '../api';
 import { Helmet } from 'react-helmet-async';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { isDarkAtom } from '../atoms';
 
 const Container = styled.div`
@@ -13,10 +13,22 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  height: 10vh;
+  height: 15vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  button {
+    width: 100px;
+    height: 30px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: ${(props) => props.theme.textColor};
+    color: ${(props) => props.theme.bgColor};
+    transition: background-color 500ms ease-in-out;
+  }
 `;
 
 const CoinList = styled.ul``;
@@ -25,7 +37,7 @@ const Coin = styled.li`
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   border-radius: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   box-shadow: 0 0px 10px ${(props) => props.theme.textColor};
 
   a {
@@ -81,8 +93,8 @@ function Coins() {
   //   큰 특징 : 한 번 React query가 호출되어 데이터를 받아오고나면 다시 React query를 호출할 때 React query는 이미
   //            data가 캐시(react-query cacing)에 있다는 것을 알고 다시 api를 호출하지 않는다. (데이터를 React query cacing 에 저장)
 
-  const setterFn = useSetRecoilState(isDarkAtom); // setState처럼 함수 호출로 값의 변경이 일어난다.
-  const toggleTheme = () => setterFn((prev) => !prev);
+  const [ mode, setMode ] = useRecoilState(isDarkAtom); // setState처럼 함수 호출로 값의 변경이 일어난다.
+  const toggleTheme = () => setMode((prev) => !prev);
 
   
   return (
@@ -93,8 +105,8 @@ function Coins() {
         </title>
       </Helmet>
       <Header>
-        <Title>코인</Title>
-        <button onClick={toggleTheme}>ToggleTheme123</button>
+        <Title>Coins</Title>
+        <button onClick={toggleTheme}>{mode ? 'Light' : 'Dark'}</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

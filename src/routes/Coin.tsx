@@ -35,10 +35,20 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  height: 10vh;
+  height: 15vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  a {
+    display: block;
+    &:hover,
+    &:active {
+      opacity: 0.4;
+    }
+  }
+
 `;
 
 const Title = styled.h1`
@@ -167,7 +177,7 @@ function Coin() {
       </Helmet>
       <Header>
         <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
-        <Link to={`/`}>Back</Link>
+        <Link to={`/`}>go back</Link>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
@@ -210,7 +220,7 @@ function Coin() {
             
           <Switch>
             <Route path={`/${coinId}/price`}>
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/${coinId}/chart`}>
               <Chart coinId={coinId} />

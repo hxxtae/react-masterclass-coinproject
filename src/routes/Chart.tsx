@@ -22,7 +22,7 @@ interface IHistoryData {
 
 function Chart({ coinId }: ChartProps) { // === props: ChartProps
   const { isLoading, data } = useQuery<IHistoryData[]>(['ohlcv', coinId], () =>
-    fetchCoinHistory(coinId), {
+    fetchCoinHistory(coinId, true), {
       refetchInterval: 5000, // 매 5초마다 이 query를 refetch 한다.
     }
   );
@@ -31,6 +31,67 @@ function Chart({ coinId }: ChartProps) { // === props: ChartProps
 
   return (
     <div>
+      {isLoading ? "Loading chart..." : <ReactApexChart
+        type='candlestick'
+        series={[
+          {
+            name: 'price',
+            data: data?.map(item => (
+              {
+                x: item.time_open.slice(0, 10),
+                y: [item.open.toFixed(2), item.high.toFixed(2), item.low.toFixed(2), item.close.toFixed(2)],
+              }
+            ))
+          }
+        ]}
+
+        options={{
+          theme: {
+            mode: isDark ? 'dark' : 'light'
+          },
+          chart: {
+            type: 'candlestick',
+            height: 300,
+            background: 'translate',
+            toolbar: { show: false },
+          },
+          yaxis: { show: false },
+          xaxis: {
+            type: 'datetime',
+            labels: { show: false },
+            axisBorder: { show: false },
+            axisTicks: { show: false },
+            tooltip: { enabled: false },
+          },
+        }}
+      />
+      }
+    </div>
+  );
+}
+
+export default Chart;
+
+// [ JavaScript APEX CHARTS / library ]
+// APEX CHARTS
+// https://apexcharts.com
+
+// APEX CHARTS 설치
+// npm install --save react-apexcharts apexcharts
+
+// React APEX CHARTS Doc
+// https://apexcharts.com/docs/react-charts
+
+// [ Recoil ]
+// atom
+// -> atom은 상태(state)의 일부를 나타낸다.
+// -> atom은 어떤 컴포넌트에서나 읽고 쓸 수 있다.
+// -> atom 의 값을 읽는 컴포넌트들은 암묵적으로 atom을 구독한다.
+//    그레서 변화가 있으면 해당 atom을 구독하는 모든 컴포넌트들이 reRendering 되는 결과가 발생할 것이다.
+
+/*
+[ 이전 그래프 ]
+<div>
       {isLoading ? "Loading chart..." : <ReactApexChart
         type='line'
         series={[
@@ -78,24 +139,4 @@ function Chart({ coinId }: ChartProps) { // === props: ChartProps
       />
       }
     </div>
-  );
-}
-
-export default Chart;
-
-// [ JavaScript APEX CHARTS / library ]
-// APEX CHARTS
-// https://apexcharts.com
-
-// APEX CHARTS 설치
-// npm install --save react-apexcharts apexcharts
-
-// React APEX CHARTS Doc
-// https://apexcharts.com/docs/react-charts
-
-// [ Recoil ]
-// atom
-// -> atom은 상태(state)의 일부를 나타낸다.
-// -> atom은 어떤 컴포넌트에서나 읽고 쓸 수 있다.
-// -> atom 의 값을 읽는 컴포넌트들은 암묵적으로 atom을 구독한다.
-//    그레서 변화가 있으면 해당 atom을 구독하는 모든 컴포넌트들이 reRendering 되는 결과가 발생할 것이다.
+ */

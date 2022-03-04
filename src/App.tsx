@@ -51,6 +51,7 @@ const GlobalStyle = createGlobalStyle` // createGlobalStyle API
     font-family: 'Source Sans Pro', sans-serif;
     background-color: ${(props) => props.theme.bgColor};
     color: ${(props => props.theme.textColor)};
+    transition: background-color 300ms ease-in-out;
   }
 
   a {
