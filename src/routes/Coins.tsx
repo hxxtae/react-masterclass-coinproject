@@ -94,7 +94,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>코인</Title>
-        <button onClick={toggleTheme}>ToggleTheme</button>
+        <button onClick={toggleTheme}>ToggleTheme123</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
