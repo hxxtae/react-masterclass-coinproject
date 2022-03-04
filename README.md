@@ -4,7 +4,7 @@ This project was CRYPTO TRACKER Project with Nomad Coders Challenges.
 
 ## Application Image
 
-
+![Clock](./coins.PNG)
 
 ## Description
 
